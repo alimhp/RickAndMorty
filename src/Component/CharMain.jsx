@@ -38,7 +38,7 @@ const Episodecomp = ({ episodes }) => {
     <div className="episode_container">
       <div className="episode_text">List of episode :</div>
       {episodes.map((epis, index) => (
-        <div className="episode">
+        <div className="episode" key={episodes.id}>
           <div className="episode_left">
             {/* {index + 1 < 10 ? `0${index + 1}` : index + 1} - {epis.episode} :{" "} */}
             {String(index + 1).padStart(2, "0")} - {epis.episode} {epis.name}

@@ -30,7 +30,7 @@ const CharComp = ({ char }) => {
 const TopMidChar = ({ char }) => {
   return (
     <div className="midlist_name_top">
-      <div>{char.name}</div>
+      <div style={{ width: "100%" }}>{char.name}</div>
       {char.gender === "Male" ? "🧔" : "👧"}
     </div>
   );

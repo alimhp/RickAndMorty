@@ -5,32 +5,44 @@ import { character, episodes } from "../data/data";
 import CharMain from "./Component/CharMain";
 import { useEffect, useState } from "react";
 import Loading from "./Component/Loading";
+import toast, { Toaster } from "react-hot-toast";
+
 function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsloading] = useState(false);
+
+
+
+
+  ///////////////////////fetch////////////////////////
   // useEffect(() => {
   //   setIsloading(true);
   //   fetch("https://rickandmortyapi.com/api/character")
   //     .then((res) => res.json())
-  //     .then((data) => setCharacters(data.results.slice(0, 5)));
+  //     .then((data) => setCharacters(data.results.slice(0, 5)))
+  //     .catch((err) => toast.error(err.message));
   //   setIsloading(false);
   // }, []);
-  /////////////////////////////////////////////
-  useEffect(() => {
-    async function fetchdata() {
-      try {
-        setIsloading(true);
-        const data = await fetch("https://rickandmortyapi.com/api/character");
-        const res = await data.json();
-        setCharacters(res.results.slice(0, 5));
-        setIsloading(false);
-      } catch {
-        console.log(res.err);
-      }
-    }
-    fetchdata();
-  }, []);
 
+  ////////////////////fetch+async await/////////////////////////
+  // useEffect(() => {
+  //   async function fetchdata() {
+  //     try {
+  //       setIsloading(true);
+  //       const res = await fetch("https://rickandmortyapi.com/api/character");
+  //       if (!res.ok) throw new Error("something went wrong!");
+  //       const data = await res.json();
+  //       setCharacters(data.results.slice(0, 5));
+  //     } catch (err) {
+  //       console.log(err.message);
+  //       toast.error(err.message);
+  //     } finally {
+  //       setIsloading(false);
+  //     }
+  //   }
+  //   fetchdata();
+  // }, []);
+  //////////////////////////////////////////////////
   return (
     <div className="app">
       <div className="navbar">
@@ -40,6 +52,7 @@ function App() {
         {isLoading ? <Loading /> : <CharList characters={characters} />}
         <CharMain character={character} episodes={episodes} />
       </div>
+      <Toaster />
     </div>
   );
 }

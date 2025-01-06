@@ -1,4 +1,18 @@
-const CharMain = ({ character, episodes }) => {
+import axios from "axios";
+import { useEffect } from "react";
+
+const CharMain = ({ character, episodes, charid, setCharacter }) => {
+  useEffect(() => {
+    async function getchar() {
+      let res = await axios.get(
+        `https://rickandmortyapi.com/api/character/${charid}`
+      );
+      let data = res.data;
+      console.log(data)
+      setCharacter(data)
+    }
+    getchar();
+  }, [charid]);
   return (
     <div className="main">
       {

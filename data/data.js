@@ -1,4 +1,4 @@
-export const character = {
+export const solocharacter = {
   id: 1,
   name: "Rick Sanchez",
   status: "Dead",

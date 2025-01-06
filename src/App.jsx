@@ -1,7 +1,7 @@
 import "./App.css";
 import CharList from "./Component/CharList";
 import Navbar from "./Component/Navbar";
-import { character, episodes } from "../data/data";
+import { solocharacter, episodes } from "../data/data";
 import CharMain from "./Component/CharMain";
 import { useEffect, useState } from "react";
 import Loading from "./Component/Loading";
@@ -12,16 +12,20 @@ function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   const [query, setQuery] = useState("");
+  const [charid, setCharid] = useState(null);
+  const [character, setCharacter] = useState(solocharacter);
+
+  const selectedchar = (id) => {
+    setCharid(id);
+    console.log(id);
+  };
 
   async function fetchdata() {
     setIsloading(true);
     await axios
       .get(`https://rickandmortyapi.com/api/character?name=${query}`)
       .then((res) => setCharacters(res.data.results.slice(0, 5)))
-      .catch(
-        (err) => toast.error(err.message),
-        setCharacters([])
-      )
+      .catch((err) => toast.error("there is no data"))
       .finally(() => setIsloading(false));
   }
   useEffect(() => {
@@ -67,8 +71,21 @@ function App() {
         />
       </div>
       <div className="mid">
-        {isLoading ? <Loading /> : <CharList characters={characters} />}
-        <CharMain character={character} episodes={episodes} />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <CharList
+            charid={charid}
+            selectedchar={selectedchar}
+            characters={characters}
+          />
+        )}
+        <CharMain
+          setCharacter={setCharacter}
+          charid={charid}
+          character={character}
+          episodes={episodes}
+        />
       </div>
       <Toaster />
     </div>

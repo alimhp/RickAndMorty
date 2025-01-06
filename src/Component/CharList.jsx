@@ -1,17 +1,23 @@
-import { EyeIcon } from "@heroicons/react/24/solid";
+// import { EyeSlashIcon } from "@heroicons/react/16/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
-const CharList = ({ characters }) => {
+const CharList = ({ characters, selectedchar, charid }) => {
   return (
     <div className="charlist">
       {characters.map((char) => (
-        <CharComp char={char} key={char.id} />
+        <CharComp
+          charid={charid}
+          char={char}
+          key={char.id}
+          selectedchar={selectedchar}
+        />
       ))}
     </div>
   );
 };
 
 export default CharList;
-const CharComp = ({ char }) => {
+const CharComp = ({ char, selectedchar, charid }) => {
   return (
     <div className="char_list">
       <img src={char.image} alt={char.name} className="char_img" />
@@ -21,8 +27,8 @@ const CharComp = ({ char }) => {
           <ButtonMidChar char={char} />
         </div>
       </div>
-      <button className="eye">
-        <EyeIcon />
+      <button className="eye" onClick={() => selectedchar(char.id)}>
+        {charid == char.id ? <EyeSlashIcon /> : <EyeIcon />}
       </button>
     </div>
   );

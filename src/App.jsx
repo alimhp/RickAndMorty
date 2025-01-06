@@ -6,13 +6,27 @@ import CharMain from "./Component/CharMain";
 import { useEffect, useState } from "react";
 import Loading from "./Component/Loading";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsloading] = useState(false);
+  const [query, setQuery] = useState("");
 
-
-
+  async function fetchdata() {
+    setIsloading(true);
+    await axios
+      .get(`https://rickandmortyapi.com/api/character?name=${query}`)
+      .then((res) => setCharacters(res.data.results.slice(0, 5)))
+      .catch(
+        (err) => toast.error(err.message),
+        setCharacters([])
+      )
+      .finally(() => setIsloading(false));
+  }
+  useEffect(() => {
+    fetchdata();
+  }, [query]);
 
   ///////////////////////fetch////////////////////////
   // useEffect(() => {
@@ -46,7 +60,11 @@ function App() {
   return (
     <div className="app">
       <div className="navbar">
-        <Navbar numofchar={characters.length} />
+        <Navbar
+          numofchar={characters.length}
+          query={query}
+          setQuery={setQuery}
+        />
       </div>
       <div className="mid">
         {isLoading ? <Loading /> : <CharList characters={characters} />}

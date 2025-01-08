@@ -13,7 +13,6 @@
   align-items: center;
   background-color: rgba(18, 78, 78, 0.241);
 
-
   padding: 1rem;
   border-radius: 10px;
 }
@@ -57,7 +56,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 1rem 0;
-    background-color: rgba(18, 78, 78, 0.241);
+  background-color: rgba(18, 78, 78, 0.241);
 
   flex: 1;
   height: 5rem;
@@ -111,8 +110,7 @@
   margin: 0 1rem;
   color: rgba(255, 0, 0, 0.673);
 
-   background-color: rgba(18, 78, 78, 0);
-
+  background-color: rgba(18, 78, 78, 0);
 
   border: none;
 }
@@ -140,7 +138,6 @@
 .chardetail {
   margin-top: 1rem;
   background-color: rgba(18, 78, 78, 0.241);
-
 
   width: 100%;
   height: 9rem;
@@ -184,6 +181,19 @@
   background: rgb(93, 93, 93);
 }
 /* ////////////////////////////episode///////////////////////////// */
+.episode_container_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.episode_container_top_icon {
+  border: 1px solid #fff;
+  padding: 2px;
+  border-radius: 50%;
+  width: 1.3rem;
+  transition: all 0.4s ease;
+}
 .episode_container {
   margin-top: 1rem;
   background-color: rgba(18, 78, 78, 0.241);

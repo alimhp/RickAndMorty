@@ -26,17 +26,15 @@ function App() {
   //////////////////check to see when we add to favourite///////////////////
   let isFavinclude = favourite.map((fav) => fav.id).includes(charid);
 
-  async function fetchdata() {
-    setIsloading(true);
-    
-    await axios
-      .get(`https://rickandmortyapi.com/api/character?name=${query}`)
-      .then((res) => setCharacters(res.data.results.slice(0, 5)))
-      .catch(() => toast.error("there is no data"))
-      .finally(() => setIsloading(false));
-  }
   useEffect(() => {
-    
+    async function fetchdata() {
+      setIsloading(true);
+      await axios
+        .get(`https://rickandmortyapi.com/api/character?name=${query}`)
+        .then((res) => setCharacters(res.data.results.slice(0, 5)))
+        .catch(() => toast.error("there is no data"))
+        .finally(() => setIsloading(false));
+    }
     fetchdata();
   }, [query]);
 

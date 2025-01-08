@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ArrowDownIcon } from "@heroicons/react/24/solid";
 
 const CharMain = ({
   addfavHandler,
@@ -72,10 +73,28 @@ const CharMain = ({
 
 export default CharMain;
 const Episodecomp = ({ episodechar }) => {
+  const [sorted, setSorted] = useState(true);
+  let sorteditem;
+  if (sorted) {
+    sorteditem = [...episodechar].sort(
+      (a, b) => new Date(a.created) - new Date(b.created)
+    );
+  } else {
+    sorteditem = [...episodechar].sort(
+      (a, b) => new Date(b.created) - new Date(a.created)
+    );
+  }
   return (
     <div className="episode_container">
-      <div className="episode_text">List of episode :</div>
-      {episodechar.map((epis, index) => (
+      <div className="episode_container_top">
+        <div className="episode_text">List of episode :</div>
+        <ArrowDownIcon
+          onClick={() => setSorted((sorted) => !sorted)}
+          className="episode_container_top_icon"
+          style={{ rotate: sorted ? "0deg" : "180deg" }}
+        />
+      </div>
+      {sorteditem.map((epis, index) => (
         <div className="episode" key={episodechar.id}>
           <div className="episode_left">
             {/* {index + 1 < 10 ? `0${index + 1}` : index + 1} - {epis.episode} :{" "} */}

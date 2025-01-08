@@ -1,7 +1,7 @@
 import "./App.css";
 import CharList from "./Component/CharList";
 import Navbar from "./Component/Navbar";
-import { solocharacter, episodes } from "../data/data";
+import { episodes } from "../data/data";
 import CharMain from "./Component/CharMain";
 import { useEffect, useState } from "react";
 import Loading from "./Component/Loading";
@@ -13,22 +13,30 @@ function App() {
   const [isLoading, setIsloading] = useState(false);
   const [query, setQuery] = useState("");
   const [charid, setCharid] = useState(null);
-  const [character, setCharacter] = useState(solocharacter);
+  const [character, setCharacter] = useState();
+  const [favourite, setfavourite] = useState([]);
 
   const selectedchar = (id) => {
     setCharid(id);
-    console.log(id);
+    // console.log(id);
   };
+  const addfavHandler = (char) => {
+    setfavourite((prefav) => [...prefav, char]);
+  };
+  //////////////////check to see when we add to favourite///////////////////
+  let isFavinclude = favourite.map((fav) => fav.id).includes(charid);
 
   async function fetchdata() {
     setIsloading(true);
+    
     await axios
       .get(`https://rickandmortyapi.com/api/character?name=${query}`)
       .then((res) => setCharacters(res.data.results.slice(0, 5)))
-      .catch((err) => toast.error("there is no data"))
+      .catch(() => toast.error("there is no data"))
       .finally(() => setIsloading(false));
   }
   useEffect(() => {
+    
     fetchdata();
   }, [query]);
 
@@ -66,6 +74,7 @@ function App() {
       <div className="navbar">
         <Navbar
           numofchar={characters.length}
+          numoffav={favourite.length}
           query={query}
           setQuery={setQuery}
         />
@@ -85,6 +94,8 @@ function App() {
           charid={charid}
           character={character}
           episodes={episodes}
+          addfavHandler={addfavHandler}
+          isFavinclude={isFavinclude}
         />
       </div>
       <Toaster />

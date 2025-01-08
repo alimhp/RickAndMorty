@@ -1,5 +1,5 @@
 import { HeartIcon } from "@heroicons/react/24/solid";
-const Navbar = ({ numofchar, query, setQuery }) => {
+const Navbar = ({ numofchar, query, setQuery, numoffav }) => {
   return (
     <>
       <div className="logo">LOGO</div>
@@ -13,7 +13,7 @@ const Navbar = ({ numofchar, query, setQuery }) => {
       <div className="char">Found {numofchar} character</div>
       <button className="heart_btn">
         <HeartIcon className="size-6 text-blue-500" />
-        <span className="num">2</span>
+        <span className="num">{numoffav}</span>
       </button>
     </>
   );

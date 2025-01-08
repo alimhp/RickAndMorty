@@ -1,18 +1,32 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const CharMain = ({ character, episodes, charid, setCharacter }) => {
+const CharMain = ({
+  addfavHandler,
+  character,
+  episodes,
+  charid,
+  setCharacter,
+  isFavinclude,
+}) => {
+  const [episodechar, setEpisodechar] = useState([]);
   useEffect(() => {
     async function getchar() {
-      let res = await axios.get(
+      let { data } = await axios.get(
         `https://rickandmortyapi.com/api/character/${charid}`
       );
-      let data = res.data;
-      console.log(data)
-      setCharacter(data)
+      const episodeid = data.episode.map((epis) => epis.split("/").at(-1));
+      let { data: episode } = await axios.get(
+        `https://rickandmortyapi.com/api/episode/${episodeid}`
+      );
+      // console.log(episode);
+      setEpisodechar([episode].flat().slice(0, 6));
+      setCharacter(data);
     }
     getchar();
   }, [charid]);
+  if (!character)
+    return <div className="main_text__select">please select character</div>;
   return (
     <div className="main">
       {
@@ -37,22 +51,32 @@ const CharMain = ({ character, episodes, charid, setCharacter }) => {
               <div className="lastknown_text">last known location :</div>
               <div className="main_loc_detail">{character.location.name}</div>
             </div>
-            <button className="main_btn">Add to Favorite</button>
+            {/* isFavinclude */}
+            {isFavinclude ? (
+              <p>already added to favourite list✔️</p>
+            ) : (
+              <button
+                onClick={() => addfavHandler(character)}
+                className="main_btn"
+              >
+                Add to Favorite
+              </button>
+            )}
           </div>
         </div>
       }
-      <Episodecomp episodes={episodes} />
+      <Episodecomp episodes={episodes} episodechar={episodechar} />
     </div>
   );
 };
 
 export default CharMain;
-const Episodecomp = ({ episodes }) => {
+const Episodecomp = ({ episodechar }) => {
   return (
     <div className="episode_container">
       <div className="episode_text">List of episode :</div>
-      {episodes.map((epis, index) => (
-        <div className="episode" key={episodes.id}>
+      {episodechar.map((epis, index) => (
+        <div className="episode" key={episodechar.id}>
           <div className="episode_left">
             {/* {index + 1 < 10 ? `0${index + 1}` : index + 1} - {epis.episode} :{" "} */}
             {String(index + 1).padStart(2, "0")} - {epis.episode} {epis.name}
